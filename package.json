@@ -28,9 +28,12 @@
     "passport": "^0.3.2",
     "passport-google-oauth20": "^1.0.0",
     "path-parser": "^2.0.2",
-    "puppeteer": "^1.0.0",
+    "puppeteer": "^2.1.1",
     "redis": "^2.8.0",
     "safe-buffer": "^5.2.0",
     "uuid": "^3.2.1"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "./tests/setup.js"
   }
 }
