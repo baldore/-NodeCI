@@ -30,12 +30,14 @@ class Page {
     await this.page.setCookie({
       name: 'session',
       value: session,
+      domain: 'localhost:*',
     })
     await this.page.setCookie({
       name: 'session.sig',
       value: sig,
+      domain: 'localhost:*',
     })
-    await this.page.goto('localhost:3000')
+    await this.page.goto('localhost:3000/blogs')
     await this.page.waitFor(logoutSelector)
   }
 
