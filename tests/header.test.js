@@ -7,27 +7,33 @@ beforeEach(async () => {
   await page.goto('localhost:3000')
 })
 
-afterEach(async () => {
-  await page.close()
-})
+describe('Header tests', () => {
+  beforeEach(async () => {
+    await page.goto('localhost:3000')
+  })
 
-test('clicking login starts oauth flow', async () => {
-  await page.click('.right a')
-  const url = await page.url()
+  test('clicking login starts oauth flow', async () => {
+    await page.click('.right a')
+    const url = await page.url()
 
-  expect(url).toMatch(/accounts\.google\.com/)
-})
+    expect(url).toMatch(/accounts\.google\.com/)
+  })
 
-test('the header has the correct text', async () => {
-  const text = await page.getContentsOf('a.brand-logo')
-  expect(text).toEqual('Blogster')
-})
+  test('the header has the correct text', async () => {
+    const text = await page.getContentsOf('a.brand-logo')
+    expect(text).toEqual('Blogster')
+  })
 
-test('when sign in, shows logout button', async () => {
-  const logoutSelector = 'a[href="/auth/logout"]'
+  test('when sign in, shows logout button', async () => {
+    const logoutSelector = 'a[href="/auth/logout"]'
 
-  await page.login()
+    await page.login()
 
-  const text = await page.getContentsOf(logoutSelector)
-  expect(text).toEqual('Logout')
+    const text = await page.getContentsOf(logoutSelector)
+    expect(text).toEqual('Logout')
+  })
+
+  afterAll(async () => {
+    await page.close()
+  })
 })

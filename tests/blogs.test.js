@@ -2,13 +2,9 @@ const Page = require('./helpers/page')
 
 let page
 
-beforeEach(async () => {
+beforeAll(async () => {
   page = await Page.build()
   await page.goto('localhost:3000')
-})
-
-afterEach(async () => {
-  await page.close()
 })
 
 describe('When logged in', async () => {
@@ -58,5 +54,9 @@ describe('When logged in', async () => {
       expect(titleError).toEqual('You must provide a value')
       expect(contentError).toEqual('You must provide a value')
     })
+  })
+
+  afterAll(async () => {
+    await page.close()
   })
 })
