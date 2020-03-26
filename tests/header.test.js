@@ -2,9 +2,13 @@ const Page = require('./helpers/page')
 
 let page
 
-beforeEach(async () => {
+beforeAll(async () => {
   page = await Page.build()
   await page.goto('localhost:3000')
+})
+
+afterAll(async () => {
+  await page.close()
 })
 
 describe('Header tests', () => {
@@ -31,9 +35,5 @@ describe('Header tests', () => {
 
     const text = await page.getContentsOf(logoutSelector)
     expect(text).toEqual('Logout')
-  })
-
-  afterAll(async () => {
-    await page.close()
   })
 })

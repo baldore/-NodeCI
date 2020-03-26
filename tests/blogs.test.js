@@ -2,12 +2,16 @@ const Page = require('./helpers/page')
 
 let page
 
-beforeAll(async () => {
-  page = await Page.build()
-  await page.goto('localhost:3000')
-})
-
 describe('When logged in', async () => {
+  beforeAll(async () => {
+    page = await Page.build()
+    await page.goto('localhost:3000')
+  })
+
+  afterAll(async () => {
+    await page.close()
+  })
+
   beforeEach(async () => {
     await page.login()
     await page.click('a.btn-floating')
@@ -55,8 +59,44 @@ describe('When logged in', async () => {
       expect(contentError).toEqual('You must provide a value')
     })
   })
+})
+
+describe('When user is not logged in', async () => {
+  beforeAll(async () => {
+    page = await Page.build()
+    await page.goto('localhost:3000')
+  })
 
   afterAll(async () => {
     await page.close()
+  })
+
+  test('User cannot create blog posts', async () => {
+    const result = await page.evaluate(() => {
+      return fetch('/api/blogs', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title: 'My Title', content: 'My Content' }),
+      }).then(res => res.json())
+    })
+
+    expect(result).toEqual({ error: 'You must log in!' })
+  })
+
+  test('User cannot get a list of posts', async () => {
+    const result = await page.evaluate(() => {
+      return fetch('/api/blogs', {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then(res => res.json())
+    })
+
+    expect(result).toEqual({ error: 'You must log in!' })
   })
 })
