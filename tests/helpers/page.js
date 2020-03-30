@@ -7,7 +7,8 @@ const logoutSelector = 'a[href="/auth/logout"]'
 class Page {
   static async build() {
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
+      args: ['--no-sandbox'],
     })
     const page = await browser.newPage()
     const customPage = new Page(page)
@@ -37,7 +38,7 @@ class Page {
       value: sig,
       domain: 'localhost:*',
     })
-    await this.page.goto('localhost:3000/blogs')
+    await this.page.goto('http://localhost:3000/blogs')
     await this.page.waitFor(logoutSelector)
   }
 

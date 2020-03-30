@@ -4,7 +4,7 @@ let page
 
 beforeAll(async () => {
   page = await Page.build()
-  await page.goto('localhost:3000')
+  await page.goto('http://localhost:3000')
 })
 
 afterAll(async () => {
@@ -13,7 +13,7 @@ afterAll(async () => {
 
 describe('Header tests', () => {
   beforeEach(async () => {
-    await page.goto('localhost:3000')
+    await page.goto('http://localhost:3000')
   })
 
   test('clicking login starts oauth flow', async () => {
